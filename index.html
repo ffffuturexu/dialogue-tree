@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
 <style>
 
 .node {
@@ -23,12 +24,16 @@
 }
 
 </style>
+</head>
 <body>
   <form action="">
     Choose an utterance to start dialogue :-)<br>
     <select name="type" onchange="select()">
+      <!-- 20_10: 20maxlen, 10responses -->
+      <option value="thriller_statement">Statement on Genre Thriller: Kids can scare you to death, and they look much worse than they are.</option>
       <option value="thriller_question">Question on Genre Thriller: Mr. Halloran, are you scared of this place?</option>
       <option value="romance_statement">Statement on Genre Romance: I will give my hearty consent to his marrying whichever of the girls he chooses.</option>
+      <option value="romance_question">Question on Genre Romance: Has my nephew made you an offer of marriage?</option>
     </select>
   </form>
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -79,7 +84,7 @@ function select(){
 });
 }
 
-d3.json("thriller_question.json", function(error, tree_data) {
+d3.json("thriller_statement.json", function(error, tree_data) {
   root = tree_data;
   root.x0 = tree_height / 2;
   root.y0 = 0;
