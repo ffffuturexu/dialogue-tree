@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+    <form>
+        1. Select Model:<br>
+        <input type="radio" name="model" value="GPT2" checked="checked">GPT2 Transformer (New)<br>
+        <input type="radio" name="model" value="LSTM">LSTM (Old)
+      </form>
+      <form action="">
+        2. Select an utterance to start dialogue:<br>
+        <select name="type">
+          <!-- 20_10: 20maxlen, 10responses -->
+          <option value="thriller_statement_tb">Statement on Genre Thriller: Kids can scare you to death, and they look much worse than they are.</option>
+          <option value="thriller_question_tb">Question on Genre Thriller: Mr. Halloran, are you scared of this place?</option>
+          <option value="romance_statement_tb">Statement on Genre Romance: I will give my hearty consent to his marrying whichever of the girls he chooses.</option>
+          <option value="romance_question_tb">Question on Genre Romance: Has my nephew made you an offer of marriage?</option>
+        </select>
+      </form>
+      <form action="">
+        3. Select personality setting:<br>
+        <select name="persona" onchange="select()">
+          <!-- 20_10: 20maxlen, 10responses -->
+          <option value="[Extra: high , Emoti: high , Agree: high]">[Extra: high , Emoti: high , Agree: high]</option>
+          <option value="[Extra: high , Emoti: high , Agree: low]">[Extra: high , Emoti: high , Agree: low]</option>
+          <option value="[Extra: high , Emoti: low , Agree: high]">[Extra: high , Emoti: low , Agree: high]</option>
+          <option value="[Extra: high , Emoti: low , Agree: low]">[Extra: high , Emoti: low , Agree: low]</option>
+          <option value="[Extra: low , Emoti: high , Agree: high]">[Extra: low , Emoti: high , Agree: high]</option>
+          <option value="[Extra: low , Emoti: high , Agree: low]">[Extra: low , Emoti: high , Agree: low]</option>
+          <option value="[Extra: low , Emoti: low , Agree: high]">[Extra: low , Emoti: low , Agree: high]</option>
+          <option value="[Extra: low , Emoti: low , Agree: low]">[Extra: low , Emoti: low , Agree: low]</option>
+        </select>
+      </form>
+    <table id="example" class="display" style="width:100%">
+        Dialogue Table:
+    </table>
+    <script>
+        // $(document).ready( function () {
+        //     $.getJSON("test.json",function(result){
+        //         // console.log(persona);
+        //         $('#example').DataTable( {
+        //             data: result['[Extra: high , Emoti: high , Agree: high]'],
+        //             columns: [
+        //                 { data: "dialogue" },
+        //                 { data: "MMI" },
+        //             ]
+        //         });
+        //     });
+        // } );
+
+        function select(){
+            var type = $("select[name='type'] option:selected").val()
+            var model = $("input[name='model']:checked").val();
+            var persona = $("select[name='persona'] option:selected").val()
+        
+            $.getJSON(model + '/'+ type+".json",function(result){
+                console.log(persona);
+                $('#example').DataTable( {
+                    data: result[persona],
+                    columns: [
+                        { data: "dialogue" },
+                        { data: "MMI" },
+                    ]
+                });
+            });
+        }
+
+        
+    </script>
+</body>
